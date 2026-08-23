@@ -100,28 +100,43 @@ export function SalesCloserChat({ onOpenCheckout }: { onOpenCheckout: () => void
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const hasTriggeredRef = useRef(false);
 
-  // Trigger preview bubble and chime after scrolling or after 5 seconds
+  // Trigger preview bubble and chime ONLY after 20 seconds AND 45% page scroll down
   useEffect(() => {
-    const triggerBubble = () => {
+    let timerPassed = false;
+    let scrollPassed = false;
+
+    const checkAndTrigger = () => {
       if (hasTriggeredRef.current || isOpen) return;
-      hasTriggeredRef.current = true;
-      setShowPreviewBubble(true);
-      if (soundEnabled) {
-        playWhatsAppChime();
+      if (timerPassed && scrollPassed) {
+        hasTriggeredRef.current = true;
+        setShowPreviewBubble(true);
+        if (soundEnabled) {
+          playWhatsAppChime();
+        }
       }
     };
 
-    // Scroll trigger (after 450px)
+    // 20-second timer
+    const timer = setTimeout(() => {
+      timerPassed = true;
+      checkAndTrigger();
+    }, 20000);
+
+    // Scroll listener checking for 45% scroll depth
     const onScroll = () => {
-      if (window.scrollY > 450) {
-        triggerBubble();
+      if (scrollPassed) return;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollHeight > 0) {
+        const pct = window.scrollY / scrollHeight;
+        if (pct >= 0.45) {
+          scrollPassed = true;
+          checkAndTrigger();
+        }
       }
     };
-
-    // Time trigger (after 6 seconds)
-    const timer = setTimeout(triggerBubble, 6000);
 
     window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
 
     return () => {
       clearTimeout(timer);
@@ -217,11 +232,11 @@ export function SalesCloserChat({ onOpenCheckout }: { onOpenCheckout: () => void
 
             <div className="min-w-0 flex-1 text-left">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-foreground">Dr. Sneha (Support)</span>
+                <span className="text-xs font-bold text-foreground">Simpex Media Support</span>
                 <span className="text-[0.6rem] text-muted-foreground">Just now</span>
               </div>
               <p className="mt-0.5 text-[0.72rem] leading-snug text-muted-foreground">
-                👋 Need help with the 600+ page syllabus or download link?
+                👋 Need help with the 600+ page syllabus or instant download?
               </p>
               <span className="mt-1 inline-flex items-center gap-1 text-[0.65rem] font-bold text-[#128C7E]">
                 <span>Tap to chat on WhatsApp</span> →
@@ -278,7 +293,7 @@ export function SalesCloserChat({ onOpenCheckout }: { onOpenCheckout: () => void
               </div>
               <div>
                 <p className="text-xs font-bold leading-tight flex items-center gap-1">
-                  <span>Nursing Notes Support</span>
+                  <span>Simpex Media Nursing Team</span>
                   <span className="rounded-full bg-emerald-400 px-1 py-0.2 text-[0.55rem] font-bold text-[#075E54]">
                     VERIFIED
                   </span>

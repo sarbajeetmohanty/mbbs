@@ -438,11 +438,11 @@ function Index() {
     return () => clearInterval(interval);
   }, []);
 
-  // Scarcity countdown (slowly reduces copies remaining)
+  // Scarcity countdown (slowly reduces copies remaining, never drops below 2)
   useEffect(() => {
     const copyInterval = setInterval(() => {
-      setRemainingCopies((prev) => (prev > 3 ? prev - 1 : 3));
-    }, 36000);
+      setRemainingCopies((prev) => (prev > 2 ? prev - 1 : 2));
+    }, 32000);
     return () => clearInterval(copyInterval);
   }, []);
 
