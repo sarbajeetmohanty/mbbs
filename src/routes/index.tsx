@@ -478,9 +478,9 @@ function Index() {
   const reviewCount = 93 + userReviews.length;
 
   return (
-    <main className="overflow-x-hidden bg-background pb-20 md:pb-0">
+    <main className="w-full max-w-full overflow-x-clip bg-background pb-20 md:pb-0">
       {/* ---------------- Sticky Top Header (Announcement + Live Ticker) ---------------- */}
-      <header className="sticky top-0 z-50 shadow-sm backdrop-blur-md">
+      <header className="sticky top-0 z-50 w-full shadow-md backdrop-blur-md">
         {/* Main Offer Announcement */}
         <aside
           aria-label="Limited time offer announcement"
