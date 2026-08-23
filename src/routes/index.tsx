@@ -414,6 +414,8 @@ function Index() {
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [checkoutPrice, setCheckoutPrice] = useState(PRICE);
   const [showStickyBar, setShowStickyBar] = useState(false);
+  const [viewersCount, setViewersCount] = useState(247);
+  const [remainingCopies, setRemainingCopies] = useState(14);
   const [sampleIdx, setSampleIdx] = useState(0);
   const [userReviews, setUserReviews] = useState<Review[]>([]);
   const [legalTopic, setLegalTopic] = useState<LegalTopic | null>(null);
@@ -422,6 +424,26 @@ function Index() {
   const openCheckout = useCallback((p?: unknown) => {
     setCheckoutPrice(typeof p === "number" ? p : PRICE);
     setCheckoutOpen(true);
+  }, []);
+
+  // Real-time organic viewer fluctuation (+3, -2, etc.)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setViewersCount((prev) => {
+        const delta = Math.floor(Math.random() * 7) - 3;
+        const next = prev + delta;
+        return Math.min(289, Math.max(228, next));
+      });
+    }, 4500);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Scarcity countdown (slowly reduces copies remaining)
+  useEffect(() => {
+    const copyInterval = setInterval(() => {
+      setRemainingCopies((prev) => (prev > 3 ? prev - 1 : 3));
+    }, 36000);
+    return () => clearInterval(copyInterval);
   }, []);
 
   useEffect(() => {
@@ -457,39 +479,49 @@ function Index() {
 
   return (
     <main className="overflow-x-hidden bg-background pb-20 md:pb-0">
-      {/* ---------------- Announcement bar ---------------- */}
-      <aside
-        aria-label="Limited time offer announcement"
-        className="sticky top-0 z-50 flex items-center justify-center gap-1.5 bg-primary px-3 py-2 text-center text-primary-foreground shadow-sm"
-      >
-        <Sparkles className="h-3.5 w-3.5 text-gold shrink-0 animate-pulse" />
-        <p className="text-xs font-medium sm:text-sm">
-          <span className="font-bold text-gold">{DISCOUNT}% DISCOUNT</span> · Limited time launch
-          offer — <span className="line-through opacity-60">₹{ORIGINAL_PRICE}</span>{" "}
-          <span className="font-bold">₹{PRICE}</span> · Ends in{" "}
-          <span className="rounded bg-primary-foreground/15 px-1.5 py-0.5 font-mono font-semibold tabular-nums">
-            {label}
-          </span>
-        </p>
-      </aside>
-
-      {/* ---------------- Live Viewers & Scarcity Ticker ---------------- */}
-      <div className="bg-blush/60 border-b border-border/80 px-3 py-1.5 text-center text-xs">
-        <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-4 gap-y-1">
-          <span className="inline-flex items-center gap-1.5 font-medium text-emerald-800">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+      {/* ---------------- Sticky Top Header (Announcement + Live Ticker) ---------------- */}
+      <header className="sticky top-0 z-50 shadow-sm backdrop-blur-md">
+        {/* Main Offer Announcement */}
+        <aside
+          aria-label="Limited time offer announcement"
+          className="flex items-center justify-center gap-1.5 bg-primary px-3 py-2 text-center text-primary-foreground shadow-sm"
+        >
+          <Sparkles className="h-3.5 w-3.5 text-gold shrink-0 animate-pulse" />
+          <p className="text-xs font-medium sm:text-sm">
+            <span className="font-bold text-gold">{DISCOUNT}% DISCOUNT</span> · Limited time launch
+            offer — <span className="line-through opacity-60">₹{ORIGINAL_PRICE}</span>{" "}
+            <span className="font-bold">₹{PRICE}</span> · Ends in{" "}
+            <span className="rounded bg-primary-foreground/15 px-1.5 py-0.5 font-mono font-semibold tabular-nums">
+              {label}
             </span>
-            <strong className="font-bold">248 nursing students</strong> actively browsing right now
-          </span>
-          <span className="hidden sm:inline text-muted-foreground">•</span>
-          <span className="inline-flex items-center gap-1 font-medium text-destructive">
-            <Zap className="h-3 w-3 fill-current text-destructive" />
-            Only <strong className="font-bold">17 discounted copies</strong> remaining for today's batch at ₹199
-          </span>
+          </p>
+        </aside>
+
+        {/* Live Active Browsing & Scarcity Ticker */}
+        <div className="border-b border-border/80 bg-card/95 px-3 py-1.5 text-center text-xs shadow-soft backdrop-blur-md">
+          <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-4 gap-y-1">
+            <span className="inline-flex items-center gap-1.5 font-medium text-emerald-800">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <strong className="font-bold tabular-nums text-emerald-900 transition-all duration-300">
+                {viewersCount} nursing students
+              </strong>{" "}
+              actively browsing right now
+            </span>
+            <span className="hidden sm:inline text-muted-foreground/60">•</span>
+            <span className="inline-flex items-center gap-1 font-medium text-destructive">
+              <Zap className="h-3 w-3 fill-current text-destructive animate-pulse" />
+              Only{" "}
+              <strong className="font-bold tabular-nums text-destructive underline decoration-dotted">
+                {remainingCopies} discounted copies
+              </strong>{" "}
+              remaining for today's batch at ₹{PRICE}
+            </span>
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* ---------------- Hero ---------------- */}
       <section className="relative flex items-center justify-center overflow-hidden bg-hero-flow px-4 py-10 sm:py-14">
