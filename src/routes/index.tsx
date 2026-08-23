@@ -479,52 +479,49 @@ function Index() {
 
   return (
     <main className="w-full max-w-full overflow-x-clip bg-background pb-20 md:pb-0">
-      {/* ---------------- Sticky Top Header (Announcement + Live Ticker) ---------------- */}
-      <header
-        className="sticky top-0 z-50 w-full shadow-md backdrop-blur-md"
+      {/* ---------------- Announcement bar (Normal flow, non-sticky) ---------------- */}
+      <aside
+        aria-label="Limited time offer announcement"
+        className="flex items-center justify-center gap-1.5 bg-primary px-3 py-2 text-center text-primary-foreground shadow-sm"
+      >
+        <Sparkles className="h-3.5 w-3.5 text-gold shrink-0 animate-pulse" />
+        <p className="text-xs font-medium sm:text-sm">
+          <span className="font-bold text-gold">{DISCOUNT}% DISCOUNT</span> · Limited time launch
+          offer — <span className="line-through opacity-60">₹{ORIGINAL_PRICE}</span>{" "}
+          <span className="font-bold">₹{PRICE}</span> · Ends in{" "}
+          <span className="rounded bg-primary-foreground/15 px-1.5 py-0.5 font-mono font-semibold tabular-nums">
+            {label}
+          </span>
+        </p>
+      </aside>
+
+      {/* ---------------- Live Active Browsing & Scarcity Ticker (Fixed / Sticky at Top) ---------------- */}
+      <div
+        className="sticky top-0 z-50 w-full border-b border-border/80 bg-card/95 px-3 py-2 text-center text-xs shadow-soft backdrop-blur-md"
         style={{ position: "sticky", top: 0, zIndex: 50 }}
       >
-        {/* Main Offer Announcement */}
-        <aside
-          aria-label="Limited time offer announcement"
-          className="flex items-center justify-center gap-1.5 bg-primary px-3 py-2 text-center text-primary-foreground shadow-sm"
-        >
-          <Sparkles className="h-3.5 w-3.5 text-gold shrink-0 animate-pulse" />
-          <p className="text-xs font-medium sm:text-sm">
-            <span className="font-bold text-gold">{DISCOUNT}% DISCOUNT</span> · Limited time launch
-            offer — <span className="line-through opacity-60">₹{ORIGINAL_PRICE}</span>{" "}
-            <span className="font-bold">₹{PRICE}</span> · Ends in{" "}
-            <span className="rounded bg-primary-foreground/15 px-1.5 py-0.5 font-mono font-semibold tabular-nums">
-              {label}
+        <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-4 gap-y-1">
+          <span className="inline-flex items-center gap-1.5 font-medium text-emerald-800">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-          </p>
-        </aside>
-
-        {/* Live Active Browsing & Scarcity Ticker */}
-        <div className="border-b border-border/80 bg-card/95 px-3 py-1.5 text-center text-xs shadow-soft backdrop-blur-md">
-          <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-4 gap-y-1">
-            <span className="inline-flex items-center gap-1.5 font-medium text-emerald-800">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <strong className="font-bold tabular-nums text-emerald-900 transition-all duration-300">
-                {viewersCount} nursing students
-              </strong>{" "}
-              actively browsing right now
-            </span>
-            <span className="hidden sm:inline text-muted-foreground/60">•</span>
-            <span className="inline-flex items-center gap-1 font-medium text-destructive">
-              <Zap className="h-3 w-3 fill-current text-destructive animate-pulse" />
-              Only{" "}
-              <strong className="font-bold tabular-nums text-destructive underline decoration-dotted">
-                {remainingCopies} discounted copies
-              </strong>{" "}
-              remaining for today's batch at ₹{PRICE}
-            </span>
-          </div>
+            <strong className="font-bold tabular-nums text-emerald-900 transition-all duration-300">
+              {viewersCount} nursing students
+            </strong>{" "}
+            actively browsing right now
+          </span>
+          <span className="hidden sm:inline text-muted-foreground/60">•</span>
+          <span className="inline-flex items-center gap-1 font-medium text-destructive">
+            <Zap className="h-3 w-3 fill-current text-destructive animate-pulse" />
+            Only{" "}
+            <strong className="font-bold tabular-nums text-destructive underline decoration-dotted">
+              {remainingCopies} discounted copies
+            </strong>{" "}
+            remaining for today's batch at ₹{PRICE}
+          </span>
         </div>
-      </header>
+      </div>
 
       {/* ---------------- Hero ---------------- */}
       <section className="relative flex items-center justify-center overflow-hidden bg-hero-flow px-4 py-10 sm:py-14">
