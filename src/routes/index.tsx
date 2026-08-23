@@ -16,6 +16,13 @@ import {
   Award,
   Stethoscope,
   BookOpen,
+  Gift,
+  Smartphone,
+  Printer,
+  WifiOff,
+  Search,
+  CheckCheck,
+  Clock,
 } from "lucide-react";
 
 import videoAsset from "@/assets/nursing-notes-preview.mp4.asset.json";
@@ -30,7 +37,7 @@ import { LegalDialog, type LegalTopic } from "@/components/nursing/LegalDialog";
 import { PaymentBadges } from "@/components/nursing/PaymentBadges";
 import { PurchasePopup } from "@/components/nursing/PurchasePopup";
 import { ExitIntentModal } from "@/components/nursing/ExitIntentModal";
-import { SalesCloserChat } from "@/components/nursing/SalesCloserChat";
+import { SalesCloserChat, WhatsAppIcon } from "@/components/nursing/SalesCloserChat";
 import {
   Accordion,
   AccordionContent,
@@ -91,6 +98,102 @@ const targetExams = [
     badge: "Clinical Focus",
     topics: "Nurse Report Templates, IV Fluids, Prioritization & Triage Tables",
     icon: Sparkles,
+  },
+];
+
+const freeBonuses = [
+  {
+    title: "Med-Surg Golden Flashcards Bundle",
+    pages: "47 Pages (pp. 234–280)",
+    worth: 599,
+    tag: "High Yield",
+    desc: "Rapid-recall flashcards for all major organ pathologies, clinical emergencies, triage, and high-frequency exam questions.",
+  },
+  {
+    title: "100+ High-Yield Medical Mnemonics",
+    pages: "Full Guide Included",
+    worth: 499,
+    tag: "Memory Hacks",
+    desc: "Clever visual memory triggers for Cranial Nerves, Murmurs, Endocrine feedback, Shock types, and Electrolyte imbalances.",
+  },
+  {
+    title: "25+ ECG/EKG Strips & Lab Pocket Guide",
+    pages: "26 Pages (pp. 319–344)",
+    worth: 399,
+    tag: "Clinical Focus",
+    desc: "Complete visual rhythm interpretation for Arrhythmias, STEMI, Blocks, ABG calculations, and vital reference lab values.",
+  },
+  {
+    title: "Drug Dosage & ICU Infusion Calculations",
+    pages: "5 Pages (pp. 427–431)",
+    worth: 299,
+    tag: "Formula Guide",
+    desc: "Exact step-by-step mathematical formulas for IV drip rates, paediatric dosages, insulin protocols, and metric conversions.",
+  },
+  {
+    title: "Free 2026–2027 Syllabus Updates & Additions",
+    pages: "Lifetime Benefit",
+    worth: 699,
+    tag: "Free Updates",
+    desc: "Whenever new nursing guidelines, clinical protocols, or exam topics are updated, you receive the revised edition at ₹0.",
+  },
+];
+
+const whatsappReviews = [
+  {
+    name: "Priya Sharma",
+    city: "New Delhi",
+    tag: "AIIMS NORCET Aspirant",
+    time: "Today, 10:42 AM",
+    message:
+      "Mam I got 84% in my 3rd year Med-Surg semester exams! The heart diagrams and drug calculation formulas were a direct hit in the exam paper. Thank you so much! 🙏",
+  },
+  {
+    name: "Dr. Ankit Patel",
+    city: "Ahmedabad",
+    tag: "Qualified Staff Nurse",
+    time: "Yesterday, 6:15 PM",
+    message:
+      "Cleared NORCET prelims! Honestly the pharmacology drug tables and shock classification charts saved at least 3 weeks of notes making. Best ₹199 spent.",
+  },
+  {
+    name: "Sneha Verma",
+    city: "Lucknow",
+    tag: "B.Sc Nursing Final Year",
+    time: "2 days ago",
+    message:
+      "Got the PDF instantly on WhatsApp. Took printouts of the 600 pages at my college shop for spiral binding. Resolution and handwritten font are 100% crystal clear!",
+  },
+  {
+    name: "Rakesh Meena",
+    city: "Jaipur",
+    tag: "State CHO Qualified",
+    time: "3 days ago",
+    message:
+      "All maternal and pediatric disorders in one single indexed PDF. Revised the whole syllabus in 2 days before my exam. Highly recommended to all nurses!",
+  },
+];
+
+const compatibilityFeatures = [
+  {
+    icon: Smartphone,
+    title: "Any Phone & Tablet",
+    desc: "Works on Android, iPhone, iPad, Apple Books, GoodNotes & all PDF readers.",
+  },
+  {
+    icon: Printer,
+    title: "100% Print-Friendly",
+    desc: "High-resolution A4 format — print clean spiral-bound paper notebooks anytime.",
+  },
+  {
+    icon: WifiOff,
+    title: "100% Offline Study",
+    desc: "Download once. Study in hospital wards, duty shifts, or hostels without internet.",
+  },
+  {
+    icon: Search,
+    title: "Searchable & Indexed",
+    desc: "Jump to any disorder, disease mechanism, or chapter in under 2 seconds.",
   },
 ];
 
@@ -370,6 +473,24 @@ function Index() {
         </p>
       </aside>
 
+      {/* ---------------- Live Viewers & Scarcity Ticker ---------------- */}
+      <div className="bg-blush/60 border-b border-border/80 px-3 py-1.5 text-center text-xs">
+        <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-4 gap-y-1">
+          <span className="inline-flex items-center gap-1.5 font-medium text-emerald-800">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
+            <strong className="font-bold">248 nursing students</strong> actively browsing right now
+          </span>
+          <span className="hidden sm:inline text-muted-foreground">•</span>
+          <span className="inline-flex items-center gap-1 font-medium text-destructive">
+            <Zap className="h-3 w-3 fill-current text-destructive" />
+            Only <strong className="font-bold">17 discounted copies</strong> remaining for today's batch at ₹199
+          </span>
+        </div>
+      </div>
+
       {/* ---------------- Hero ---------------- */}
       <section className="relative flex items-center justify-center overflow-hidden bg-hero-flow px-4 py-10 sm:py-14">
         <div
@@ -479,6 +600,28 @@ function Index() {
               );
             })}
           </dl>
+
+          {/* Universal Study Compatibility Badges */}
+          <div
+            className="animate-rise mt-1 grid w-full max-w-2xl grid-cols-2 gap-2 sm:grid-cols-4 text-left"
+            style={{ animationDelay: "0.3s" }}
+          >
+            {compatibilityFeatures.map((f) => {
+              const Icon = f.icon;
+              return (
+                <div
+                  key={f.title}
+                  className="rounded-xl border border-border bg-card/80 p-2.5 shadow-soft backdrop-blur-sm"
+                >
+                  <div className="flex items-center gap-1.5 text-primary">
+                    <Icon className="h-3.5 w-3.5 shrink-0" />
+                    <span className="text-[0.72rem] font-bold text-foreground truncate">{f.title}</span>
+                  </div>
+                  <p className="mt-1 text-[0.65rem] leading-tight text-muted-foreground">{f.desc}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
@@ -669,6 +812,76 @@ function Index() {
         </div>
       </section>
 
+      {/* ---------------- Free Bonuses Section ---------------- */}
+      <section className="bg-flow-blush px-4 py-10 sm:py-14 border-t border-border/60">
+        <div className="mx-auto max-w-5xl text-center">
+          <span className="glass-pill inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[0.7rem] font-bold uppercase tracking-[0.14em] text-destructive bg-destructive/10">
+            <Gift className="h-3.5 w-3.5 text-destructive" />
+            Free Gift Bundle Included Today
+          </span>
+          <h2 className="mt-3 text-[clamp(1.75rem,3.8vw,2.5rem)]">
+            Get 5 High-Yield Bonuses <span className="text-italic-display">(Worth ₹2,495+ FREE)</span>
+          </h2>
+          <p className="mx-auto mt-2 max-w-xl text-xs text-muted-foreground sm:text-sm">
+            Order the 600+ Page Complete Nursing Notebook today and get instant free access to these 5 essential clinical revision toolkits.
+          </p>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 text-left">
+            {freeBonuses.map((b, idx) => (
+              <div
+                key={b.title}
+                className="card-soft flex flex-col justify-between p-5 transition-all hover:border-primary/40 hover:shadow-card group relative overflow-hidden"
+              >
+                <div className="absolute -right-6 -top-6 h-16 w-16 rounded-full bg-blush/80 -z-0" />
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[0.65rem] font-bold text-primary">
+                      Bonus #{idx + 1}
+                    </span>
+                    <span className="text-xs font-bold text-emerald-700">
+                      Worth <span className="line-through text-muted-foreground">₹{b.worth}</span> FREE
+                    </span>
+                  </div>
+
+                  <h3 className="mt-3 font-display text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                    {b.title}
+                  </h3>
+                  <span className="inline-block mt-0.5 text-[0.7rem] font-medium text-muted-foreground">
+                    {b.pages}
+                  </span>
+                  <p className="mt-2 text-xs leading-relaxed text-foreground/80 border-t border-border/60 pt-2">
+                    {b.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+
+            {/* Total Value Summary Box */}
+            <div className="card-soft flex flex-col justify-center items-center p-6 text-center bg-gradient-to-br from-card to-blush/40 border-2 border-primary/30 sm:col-span-2 lg:col-span-1">
+              <span className="text-[0.7rem] font-bold uppercase tracking-wider text-muted-foreground">
+                Total Real Bundle Value
+              </span>
+              <span className="font-display text-3xl font-bold text-muted-foreground line-through opacity-70 mt-1">
+                ₹6,499/-
+              </span>
+              <div className="mt-2 flex items-baseline gap-1.5">
+                <span className="text-xs font-medium text-muted-foreground">Today's Price:</span>
+                <span className="font-display text-3xl font-bold text-primary sm:text-4xl">₹{PRICE}/-</span>
+              </div>
+              <p className="mt-1 text-xs font-bold text-emerald-700">You Save 97% Today</p>
+
+              <button
+                onClick={() => openCheckout(PRICE)}
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-xs font-bold uppercase tracking-wider text-primary-foreground shadow-float transition hover:bg-primary/95 active:scale-95 cursor-pointer"
+              >
+                <Zap className="h-3.5 w-3.5 fill-gold text-gold" />
+                <span>Claim All 5 Bonuses Free</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ---------------- Offer / pricing ---------------- */}
       <section id="offer" className="bg-flow-blush px-4 py-10 sm:py-14">
         <div className="mx-auto max-w-lg">
@@ -805,6 +1018,56 @@ function Index() {
                 </figcaption>
               </figure>
             ))}
+          </div>
+
+          {/* WhatsApp Student Chat Testimonials */}
+          <div className="mt-10 border-t border-border/70 pt-8 text-left">
+            <div className="text-center mb-6">
+              <span className="glass-pill inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-emerald-800 bg-emerald-500/10">
+                <WhatsAppIcon className="h-3.5 w-3.5 fill-[#25D366]" />
+                Direct WhatsApp Messages
+              </span>
+              <h3 className="mt-2 font-display text-xl sm:text-2xl font-bold">
+                What Nursing Students Say On <span className="text-italic-display">WhatsApp</span>
+              </h3>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {whatsappReviews.map((item) => (
+                <div
+                  key={item.name}
+                  className="overflow-hidden rounded-2xl border border-[#25D366]/30 bg-card p-4 shadow-soft"
+                >
+                  {/* WhatsApp chat bubble header */}
+                  <div className="flex items-center justify-between border-b border-border/60 pb-2.5">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#128C7E] font-bold text-white text-xs shadow-sm">
+                        {item.name.charAt(0)}
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-foreground leading-tight flex items-center gap-1">
+                          <span>{item.name}</span>
+                          <span className="text-[0.65rem] text-muted-foreground font-normal">({item.city})</span>
+                        </p>
+                        <p className="text-[0.65rem] font-medium text-[#128C7E]">{item.tag}</p>
+                      </div>
+                    </div>
+                    <span className="flex items-center gap-1 text-[0.6rem] text-muted-foreground">
+                      <Clock className="h-2.5 w-2.5" /> {item.time}
+                    </span>
+                  </div>
+
+                  {/* Chat Message Bubble */}
+                  <div className="mt-2.5 rounded-xl bg-[#dcf8c6]/40 border border-[#25D366]/20 p-3 text-xs leading-relaxed text-slate-800">
+                    <p className="italic">"{item.message}"</p>
+                    <div className="mt-1.5 flex items-center justify-end gap-1 text-[0.6rem] text-slate-500">
+                      <span>Delivered</span>
+                      <CheckCheck className="h-3 w-3 text-sky-600" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           <ReviewForm onSubmit={addReview} />
