@@ -480,7 +480,10 @@ function Index() {
   return (
     <main className="w-full max-w-full overflow-x-clip bg-background pb-20 md:pb-0">
       {/* ---------------- Sticky Top Header (Announcement + Live Ticker) ---------------- */}
-      <header className="sticky top-0 z-50 w-full shadow-md backdrop-blur-md">
+      <header
+        className="sticky top-0 z-50 w-full shadow-md backdrop-blur-md"
+        style={{ position: "sticky", top: 0, zIndex: 50 }}
+      >
         {/* Main Offer Announcement */}
         <aside
           aria-label="Limited time offer announcement"
